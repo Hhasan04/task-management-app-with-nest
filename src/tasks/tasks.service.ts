@@ -1,0 +1,9 @@
+import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class TasksService {
+
+    getAllTasks() {
+        return "Hello from the service";
+    }
+}
