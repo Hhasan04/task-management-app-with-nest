@@ -35,6 +35,6 @@ export class Task {
     @UpdateDateColumn()
     updatedAt!: Date;
 
-    @Column({ type: 'datetime', nullable: true })
+    @Column({ type: 'datetime'})
     dueDate!: Date;
 }
