@@ -1,6 +1,6 @@
 import { IsString, IsNotEmpty, IsEnum, IsDateString } from 'class-validator';
-import { TaskStatus } from './task-status.enum';
-import { TaskPriority } from './task-priority.enum';
+import { TaskStatus } from '../Enums/task-status.enum';
+import { TaskPriority } from '../Enums/task-priority.enum';
 
 export class TaskDto {
   @IsString()

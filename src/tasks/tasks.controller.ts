@@ -1,9 +1,9 @@
 import { Body, Controller, Post, Param, Get, Put, Delete, Query, ParseEnumPipe } from '@nestjs/common';
 import { TasksService } from './tasks.service';
-import { TaskDto } from './tasks.dto';
+import { TaskDto } from './Dtos/tasks.dto';
 import { Task } from './tasks.entity';
 import { DeleteResult } from 'typeorm';
-import { GetTasksQueryDto } from './get-tasks-query-dto';
+import { GetTasksQueryDto } from './Dtos/get-tasks-query-dto';
 
 @Controller('tasks')
 export class TasksController {

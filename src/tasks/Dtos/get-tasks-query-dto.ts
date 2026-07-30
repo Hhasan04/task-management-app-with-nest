@@ -1,7 +1,7 @@
-import { TaskStatus } from './task-status.enum';
-import { TaskPriority } from './task-priority.enum';
-import { TaskSortField } from './task-sort-field-enum';
-import { SortOrder } from './sort-order.enum';
+import { TaskStatus } from '../Enums/task-status.enum';
+import { TaskPriority } from '../Enums/task-priority.enum';
+import { TaskSortField } from '../Enums/task-sort-field-enum';
+import { SortOrder } from '../Enums/sort-order.enum';
 import { IsEnum, IsInt, IsOptional, IsString, Min } from 'class-validator';
 import { Type } from 'class-transformer';
 
