@@ -3,26 +3,22 @@ import { TaskStatus } from './task-status.enum';
 import { TaskPriority } from './task-priority.enum';
 
 export class TaskDto {
+  @IsString()
+  @IsNotEmpty()
+  title!: string;
 
+  @IsString()
+  description?: string;
 
-    @IsString()
-    @IsNotEmpty()
-    title!: string;
+  @IsNotEmpty()
+  @IsEnum(TaskStatus)
+  status!: TaskStatus;
 
-    @IsString()
-    @IsNotEmpty()
-    description?: string;
+  @IsNotEmpty()
+  @IsEnum(TaskPriority)
+  priority!: TaskPriority;
 
-    @IsNotEmpty()
-    @IsEnum(TaskStatus)
-    status!: TaskStatus;
-
-    @IsNotEmpty()
-    @IsEnum(TaskPriority)
-    priority!: TaskPriority;
-
-    @IsNotEmpty()
-    @IsDateString()
-    dueDate!: String;
-
+  @IsNotEmpty()
+  @IsDateString()
+  dueDate!: string;
 }

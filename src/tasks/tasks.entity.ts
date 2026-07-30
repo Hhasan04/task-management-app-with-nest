@@ -1,40 +1,44 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { TaskStatus } from './task-status.enum';
 import { TaskPriority } from './task-priority.enum';
 
-
 @Entity()
 export class Task {
+  @PrimaryGeneratedColumn()
+  id!: number;
 
-    @PrimaryGeneratedColumn()
-    id!: number;
+  @Column()
+  title!: string;
 
-    @Column()
-    title!: string;
+  @Column({ nullable: true })
+  description!: string;
 
-    @Column({ nullable: true })
-    description!: string;
+  @Column({
+    type: 'enum',
+    enum: TaskStatus,
+    default: TaskStatus.TODO,
+  })
+  status!: TaskStatus;
 
-    @Column({
-        type: 'enum',
-        enum: TaskStatus,
-        default: TaskStatus.TODO,
-    })
-    status!: TaskStatus;
+  @Column({
+    type: 'enum',
+    enum: TaskPriority,
+    default: TaskPriority.MEDIUM,
+  })
+  priority!: TaskPriority;
 
-    @Column({
-        type: 'enum',
-        enum: TaskPriority,
-        default: TaskPriority.MEDIUM,
-    })
-    priority!: TaskPriority;
+  @CreateDateColumn()
+  createdAt!: Date;
 
-    @CreateDateColumn()
-    createdAt!: Date;
+  @UpdateDateColumn()
+  updatedAt!: Date;
 
-    @UpdateDateColumn()
-    updatedAt!: Date;
-
-    @Column({ type: 'datetime'})
-    dueDate!: Date;
+  @Column({ type: 'datetime' })
+  dueDate!: Date;
 }
