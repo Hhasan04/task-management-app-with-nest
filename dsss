@@ -1,0 +1,35 @@
+[33mcommit ba1f99170c84147276d19ddca1ecef6d7194c676[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Hasan Abo Snena <hasan.karamh@gmail.com>
+Date:   Thu Jul 30 11:22:25 2026 +0300
+
+    created query enum instead of having too many query params
+
+[33mcommit 60b3161565355867dbe30e08565cbcfac71aa6b3[m
+Author: Hasan Abo Snena <hasan.karamh@gmail.com>
+Date:   Thu Jul 30 10:59:25 2026 +0300
+
+    implemnted sorting
+
+[33mcommit 9be01e41e937f98f39c181ce13634eb0d35c5fd9[m
+Author: Hasan Abo Snena <hasan.karamh@gmail.com>
+Date:   Thu Jul 30 10:20:16 2026 +0300
+
+    switched to query buildeer
+
+[33mcommit 21a3ab3069931b8bbb0ded0dd1f628e4b440eaba[m
+Author: Hasan Abo Snena <hasan.karamh@gmail.com>
+Date:   Thu Jul 30 09:01:57 2026 +0300
+
+    full CRUD is done, along with search and filtering, and some security measures
+
+[33mcommit 5ec5d8e253f2fcf7b4f6effee75dd8b230b0f307[m
+Author: Hasan Abo Snena <hasan.karamh@gmail.com>
+Date:   Tue Jul 28 15:15:59 2026 +0300
+
+    CRUD endpoints done
+
+[33mcommit 4834020d7addb3686f5c7efbdd5a670903f5b2c9[m
+Author: Hasan Abo Snena <hasan.karamh@gmail.com>
+Date:   Sun Jul 26 15:29:17 2026 +0300
+
+    app initilization and task entity created

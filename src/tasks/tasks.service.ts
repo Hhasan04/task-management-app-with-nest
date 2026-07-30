@@ -1,13 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Like, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Task } from './tasks.entity';
 import { TaskDto } from './tasks.dto';
 import { TaskStatus } from './task-status.enum';
-import { TaskPriority } from './task-priority.enum';
-import { TaskSortField } from './task-sort-field-enum';
 import { GetTasksQueryDto } from './get-tasks-query-dto';
 import { SortOrder } from './sort-order.enum';
+import { TaskPriority } from './task-priority.enum';
 
 @Injectable()
 export class TasksService {
@@ -16,8 +15,7 @@ export class TasksService {
     private readonly tasksRepository: Repository<Task>,
   ) {}
 
-  async getAllTasks(queryDto: GetTasksQueryDto)
-  {
+  async getAllTasks(queryDto: GetTasksQueryDto) {
     const {
       search,
       status,
@@ -25,15 +23,13 @@ export class TasksService {
       sortBy,
       order = SortOrder.ASC,
       page,
-      limit
+      limit,
     } = queryDto;
 
     const query = this.tasksRepository.createQueryBuilder('task');
 
-    if(search)
-    {
-      query.andWhere
-      (
+    if (search) {
+      query.andWhere(
         `(task.title Like :search OR task.description Like :search)`,
         {
           search: `%${search}%`,
@@ -41,20 +37,17 @@ export class TasksService {
       );
     }
 
-    if(status)
-    {
-      query.andWhere(`task.status = :status`, {status});
+    if (status) {
+      query.andWhere(`task.status = :status`, { status });
     }
 
-    if(priority)
-    {
-      query.andWhere(`task.priority = :priority`, {priority})
+    if (priority) {
+      query.andWhere(`task.priority = :priority`, { priority });
     }
 
-    if(sortBy) query.orderBy(`task.${sortBy}`, order);
+    if (sortBy) query.orderBy(`task.${sortBy}`, order);
 
-    if(page && limit)
-    {
+    if (page && limit) {
       query.skip((page - 1) * limit).take(limit);
     }
 
@@ -67,7 +60,6 @@ export class TasksService {
       limit: limit ?? total,
       totalPages: limit ? Math.ceil(total / limit) : 1,
     };
-
   }
 
   async getTaskById(id: number): Promise<Task | null> {
@@ -102,5 +94,47 @@ export class TasksService {
     if (!task) throw new NotFoundException(`Task with ${id} Not Found.`);
 
     return await this.tasksRepository.delete({ id });
+  }
+
+  async getStatistics() {
+    const total = await this.tasksRepository.count();
+
+    const todo = await this.tasksRepository.count({
+      where: { status: TaskStatus.TODO },
+    });
+
+    const inProgress = await this.tasksRepository.count({
+      where: { status: TaskStatus.IN_PROGRESS },
+    });
+
+    const completed = await this.tasksRepository.count({
+      where: { status: TaskStatus.COMPLETED },
+    });
+
+    const low = await this.tasksRepository.count({
+      where: { priority: TaskPriority.LOW },
+    });
+
+    const medium = await this.tasksRepository.count({
+      where: { priority: TaskPriority.MEDIUM },
+    });
+
+    const high = await this.tasksRepository.count({
+      where: { priority: TaskPriority.HIGH },
+    });
+
+    return {
+      total,
+      status: {
+        todo,
+        inProgress,
+        completed
+      },
+      priority: {
+        low,
+        medium,
+        high
+      },
+    };
   }
 }

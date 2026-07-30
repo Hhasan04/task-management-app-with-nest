@@ -14,6 +14,11 @@ export class TasksController {
     return this.tasksService.getAllTasks(query);
   }
 
+  @Get('statistics')
+  statistics(){
+    return this.tasksService.getStatistics();
+  }
+
   @Get('/:id')
   getTaskById(@Param('id') id: number): Promise<Task | null> {
     return this.tasksService.getTaskById(id);
