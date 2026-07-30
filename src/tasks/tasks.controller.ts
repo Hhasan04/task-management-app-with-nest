@@ -3,21 +3,15 @@ import { TasksService } from './tasks.service';
 import { TaskDto } from './tasks.dto';
 import { Task } from './tasks.entity';
 import { DeleteResult } from 'typeorm';
-import { TaskStatus } from './task-status.enum';
-import { TaskPriority } from './task-priority.enum';
-import { TaskSortField} from './task-sort-field-enum';
+import { GetTasksQueryDto } from './get-tasks-query-dto';
 
 @Controller('tasks')
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
   @Get()
-  getAllTasks(@Query('search') search?: string,
-              @Query('status') status ?: TaskStatus,
-              @Query('priority') priority ?: TaskPriority,
-              @Query('sortBy', new ParseEnumPipe(TaskSortField, {optional: true})) sortBy ?: TaskSortField,
-              @Query('order') order ?: 'ASC' | 'DESC') {
-    return this.tasksService.getAllTasks(search, status, priority, sortBy, order);
+  getAllTasks(@Query() query: GetTasksQueryDto) {
+    return this.tasksService.getAllTasks(query);
   }
 
   @Get('/:id')
