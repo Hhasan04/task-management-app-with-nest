@@ -24,6 +24,8 @@ export class TasksService {
       priority,
       sortBy,
       order = SortOrder.ASC,
+      page,
+      limit
     } = queryDto;
 
     const query = this.tasksRepository.createQueryBuilder('task');
@@ -51,7 +53,20 @@ export class TasksService {
 
     if(sortBy) query.orderBy(`task.${sortBy}`, order);
 
-    return await query.getMany();
+    if(page && limit)
+    {
+      query.skip((page - 1) * limit).take(limit);
+    }
+
+    const [tasks, total] = await query.getManyAndCount();
+
+    return {
+      data: tasks,
+      total,
+      page: page ?? 1,
+      limit: limit ?? total,
+      totalPages: limit ? Math.ceil(total / limit) : 1,
+    };
 
   }
 

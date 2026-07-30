@@ -2,7 +2,8 @@ import { TaskStatus } from './task-status.enum';
 import { TaskPriority } from './task-priority.enum';
 import { TaskSortField } from './task-sort-field-enum';
 import { SortOrder } from './sort-order.enum';
-import { IsEnum, IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsInt, IsOptional, IsString, Min } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class GetTasksQueryDto {
   @IsOptional()
@@ -24,4 +25,16 @@ export class GetTasksQueryDto {
   @IsOptional()
   @IsEnum(SortOrder)
   order?: SortOrder;
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  page?: number
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  limit?: number
 }
