@@ -5,6 +5,7 @@ import { Task } from './tasks.entity';
 import { TaskDto } from './tasks.dto';
 import { TaskStatus } from './task-status.enum';
 import { TaskPriority } from './task-priority.enum';
+import { TaskSortField } from './task-sort-field-enum';
 
 @Injectable()
 export class TasksService {
@@ -13,9 +14,11 @@ export class TasksService {
     private readonly tasksRepository: Repository<Task>,
   ) {}
 
-  async getAllTasks(search ?: string,
-              status ?: TaskStatus,
-              priority ?: TaskPriority)
+  async getAllTasks(search?: string,
+                    status?: TaskStatus,
+                    priority?: TaskPriority,
+                    sortBy?: TaskSortField,
+                    order: 'ASC' | 'DESC' = 'ASC')
   {
     const query = this.tasksRepository.createQueryBuilder('task');
 
@@ -39,6 +42,8 @@ export class TasksService {
     {
       query.andWhere(`task.priority = :priority`, {priority})
     }
+
+    if(sortBy) query.orderBy(`task.${sortBy}`, order);
 
     return await query.getMany();
 

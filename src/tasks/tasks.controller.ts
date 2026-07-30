@@ -1,10 +1,11 @@
-import { Body, Controller, Post, Param, Get, Put, Delete, Query } from '@nestjs/common';
+import { Body, Controller, Post, Param, Get, Put, Delete, Query, ParseEnumPipe } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { TaskDto } from './tasks.dto';
 import { Task } from './tasks.entity';
 import { DeleteResult } from 'typeorm';
 import { TaskStatus } from './task-status.enum';
 import { TaskPriority } from './task-priority.enum';
+import { TaskSortField} from './task-sort-field-enum';
 
 @Controller('tasks')
 export class TasksController {
@@ -13,8 +14,10 @@ export class TasksController {
   @Get()
   getAllTasks(@Query('search') search?: string,
               @Query('status') status ?: TaskStatus,
-              @Query('priority') priority ?: TaskPriority ) {
-    return this.tasksService.getAllTasks(search, status, priority);
+              @Query('priority') priority ?: TaskPriority,
+              @Query('sortBy', new ParseEnumPipe(TaskSortField, {optional: true})) sortBy ?: TaskSortField,
+              @Query('order') order ?: 'ASC' | 'DESC') {
+    return this.tasksService.getAllTasks(search, status, priority, sortBy, order);
   }
 
   @Get('/:id')
