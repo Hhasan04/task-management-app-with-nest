@@ -13,20 +13,35 @@ export class TasksService {
     private readonly tasksRepository: Repository<Task>,
   ) {}
 
-  getAllTasks(search ?: string, status ?: TaskStatus, priority ?: TaskPriority) {
-    if(!search && !status && !priority){
-      return this.tasksRepository.find();
+  async getAllTasks(search ?: string,
+              status ?: TaskStatus,
+              priority ?: TaskPriority)
+  {
+    const query = this.tasksRepository.createQueryBuilder('task');
+
+    if(search)
+    {
+      query.andWhere
+      (
+        `(task.title Like :search OR task.description Like :search)`,
+        {
+          search: `%${search}%`,
+        },
+      );
     }
 
-    const where: any = {}
+    if(status)
+    {
+      query.andWhere(`task.status = :status`, {status});
+    }
 
-    if(search) where.title = Like(`%${search}%`);
+    if(priority)
+    {
+      query.andWhere(`task.priority = :priority`, {priority})
+    }
 
-    if(status) where.status = status;
+    return await query.getMany();
 
-    if(priority) where.priority = priority;
-
-    return this.tasksRepository.find({ where });
   }
 
   async getTaskById(id: number): Promise<Task | null> {
